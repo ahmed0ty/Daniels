@@ -170,3 +170,32 @@ container.addEventListener("mouseleave", () => {
   img.style.transform = "rotateY(0deg) rotateX(0deg) scale(1)";
 });
 
+
+
+
+// تغيير الـ active link حسب السكشن الظاهر
+const sections = document.querySelectorAll("section");
+const navLinks = document.querySelectorAll(".nav-link");
+
+window.addEventListener("scroll", () => {
+  let current = "";
+
+  sections.forEach(section => {
+    const top = window.scrollY;
+    const offset = section.offsetTop - 150;
+    const height = section.offsetHeight;
+    const id = section.getAttribute("id");
+
+    if (top >= offset && top < offset + height) {
+      current = id;
+    }
+  });
+
+  navLinks.forEach(link => {
+    link.classList.remove("active");
+
+    if (link.getAttribute("href") === `#${current}`) {
+      link.classList.add("active");
+    }
+  });
+});
