@@ -1,13 +1,79 @@
-       
+
 const navbar = document.querySelector('.navbar');
 
 window.addEventListener('scroll', () => {
-    if(window.scrollY > 50){ 
+    if (window.scrollY > 50) { 
         navbar.classList.add('scrolled');
     } else {
         navbar.classList.remove('scrolled');
     }
 });
+
+
+
+
+
+const sections = document.querySelectorAll("section");
+const navLinks = document.querySelectorAll(".nav-link"); 
+
+const options = {
+  threshold: 0.5
+};
+
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      const id = entry.target.getAttribute("id");
+
+      navLinks.forEach(link => {
+        link.classList.remove("section-active"); 
+
+        if (link.getAttribute("href") === "#" + id) {
+          link.classList.add("section-active"); 
+        }
+      });
+    }
+  });
+}, options);
+
+sections.forEach(section => {
+  observer.observe(section);
+});
+
+
+
+window.addEventListener("scroll", () => {
+    if (window.scrollY < 50) {
+        navLinks.forEach(link => link.classList.remove("section-active"));
+        document.querySelector('.nav-link[href="#home"]').classList.add("section-active");
+    }
+});
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -115,13 +181,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
 
-
-
-
-
-
-
-
 document.addEventListener("DOMContentLoaded", () => {
     const counters = document.querySelectorAll("#client h2");
 
@@ -172,30 +231,43 @@ container.addEventListener("mouseleave", () => {
 
 
 
+window.addEventListener("DOMContentLoaded", () => {
+    const homeLink = document.querySelector('.nav-link[href="#home"]');
 
-// تغيير الـ active link حسب السكشن الظاهر
-const sections = document.querySelectorAll("section");
-const navLinks = document.querySelectorAll(".nav-link");
+  
+    homeLink.classList.add("section-active", "home-white");
+});
 
 window.addEventListener("scroll", () => {
-  let current = "";
-
-  sections.forEach(section => {
-    const top = window.scrollY;
-    const offset = section.offsetTop - 150;
-    const height = section.offsetHeight;
-    const id = section.getAttribute("id");
-
-    if (top >= offset && top < offset + height) {
-      current = id;
+    if (window.scrollY < 50) {
+        homeLink.classList.add("home-white");
+        homeLink.classList.remove("home-black");
+    } else {
+        homeLink.classList.remove("home-white");
+        homeLink.classList.add("home-black");
     }
-  });
-
-  navLinks.forEach(link => {
-    link.classList.remove("active");
-
-    if (link.getAttribute("href") === `#${current}`) {
-      link.classList.add("active");
-    }
-  });
 });
+
+
+
+
+document.querySelectorAll('.navbar .nav-link').forEach(link => {
+    link.addEventListener('click', () => {
+        const navbarCollapse = document.querySelector('.navbar-collapse');
+
+        
+        if (navbarCollapse.classList.contains('show')) {
+            const bsCollapse = new bootstrap.Collapse(navbarCollapse, {
+                toggle: true
+            });
+        }
+    });
+});
+
+
+
+
+
+
+
+
