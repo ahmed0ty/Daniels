@@ -76,12 +76,9 @@ window.addEventListener("scroll", () => {
 
 
 
-// ==============================
-// 1. GSAP Animations
-// ==============================
+
 gsap.registerPlugin(ScrollTrigger);
 
-// Animation for .cont elements
 gsap.from(".cont h1, .cont p, .cont a", {
   y: 50,
   opacity: 0,
@@ -90,8 +87,8 @@ gsap.from(".cont h1, .cont p, .cont a", {
   stagger: 0.2,
 });
 
-// Animation for all sections
-gsap.utils.toArray("section").forEach(section => {
+
+gsap.utils.toArray("section:not(.tab-pane)").forEach(section => {
   gsap.from(section, {
     opacity: 0,
     y: 80,
@@ -105,7 +102,6 @@ gsap.utils.toArray("section").forEach(section => {
   });
 });
 
-// Navbar slide-in animation
 gsap.from(".navbar", {
   y: -100,
   opacity: 0,
@@ -113,7 +109,7 @@ gsap.from(".navbar", {
   ease: "power2.out"
 });
 
-// Nav link hover effect
+
 document.querySelectorAll(".nav-link").forEach(link => {
   link.addEventListener("mouseenter", () => {
     gsap.to(link, { scale: 1.1, duration: 0.3, ease: "power1.out" });
@@ -124,9 +120,6 @@ document.querySelectorAll(".nav-link").forEach(link => {
 });
 
 
-// ==============================
-// 2. ScrollTrigger Active Links
-// ==============================
 function setActiveLink(id) {
   document.querySelectorAll(".nav-link").forEach(link => {
     link.classList.remove("section-active");
@@ -135,13 +128,13 @@ function setActiveLink(id) {
   if (activeLink) activeLink.classList.add("section-active");
 }
 
-// Make "home" active on page load
+
 window.addEventListener("load", () => {
   setActiveLink("home");
 });
 
-// Activate links on scroll using ScrollTrigger
-gsap.utils.toArray("section").forEach(section => {
+
+gsap.utils.toArray("section:not(.tab-pane)").forEach(section => {
   let id = section.getAttribute("id");
 
   ScrollTrigger.create({
@@ -154,9 +147,20 @@ gsap.utils.toArray("section").forEach(section => {
 });
 
 
-// ==============================
-// 3. Navbar Collapse Toggle on Link Click (Mobile)
-// ==============================
+document.querySelectorAll('#pills-tab button').forEach(btn => {
+  btn.addEventListener('shown.bs.tab', e => {
+    const targetId = e.target.getAttribute('data-bs-target');
+    gsap.from(`${targetId} .col-inner`, {
+      opacity: 0,
+      y: 50,
+      duration: 0.8,
+      stagger: 0.1,
+      ease: "power2.out"
+    });
+  });
+});
+
+
 document.querySelectorAll('.navbar .nav-link').forEach(link => {
   link.addEventListener('click', () => {
     const navbarCollapse = document.querySelector('.navbar-collapse');
@@ -165,8 +169,6 @@ document.querySelectorAll('.navbar .nav-link').forEach(link => {
     }
   });
 });
-
-
 
 
 
